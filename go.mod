@@ -1,4 +1,4 @@
-module TerminalChat/TUI
+module TerminalChat
 
 go 1.23.2
 

@@ -1,4 +1,4 @@
-package main
+package TUI
 
 import (
 	"fmt"
@@ -27,28 +27,34 @@ func (s Screen) createOutline(outlineColor int, outlineVal rune) {
 
 	//set color to foreground color
 	s.color = outlineColor
+	doAnsii("[" + strconv.Itoa(s.color) + "m") //set color to this
 
 	//draw top of outline
 	for i := 0; i < s.width; i++ {
-    doAnsii("[" + strconv.Itoa(s.color) + "m") //set color to this
-    s.put(outlineVal) 
+		s.put(outlineVal, 0, i)        //put it in row 0, col i
+		s.put(outlineVal, s.height, i) //put it in row 0, col i
 	}
 
-  for i := 1; i < s.height - 1; i++ {
-    s.put(outlineVal) 
-  }
+	for i := 1; i < s.height-1; i++ {
+		s.put(outlineVal, i, 0)       //put it in row i, col 0
+		s.put(outlineVal, i, s.width) //put it in row i, leftmost column
+	}
 
-  for i:= s.height; i < s.width; i++ {
-    s.put(outlineVal)
-  }
 }
 
-func (s Screen) put(c rune) {
-  fmt.Printf("%c\r", c) //print the character, then carraige return move cursor back one col
+// place a character at x,y
+func (s Screen) put(c rune, row, col int) {
+	s.to(row, col)
+	fmt.Printf("%c\r", c) //print the character, then carraige return move cursor back one col
 }
 
+// move the cursor to x, y
+func (s Screen) to(row, col int) {
+	action := fmt.Sprintf("[%v;%vH", row, col)
+	doAnsii(action)
+}
 
-func main() {
+func MainDrawLoop() {
 
 	//setup
 	termFD := int(os.Stdin.Fd())
@@ -57,12 +63,18 @@ func main() {
 	defer term.Restore(termFD, oldState)
 
 	width, height := getTermDimensions(termFD)
-
 	terminal := createTerm(width, height)
 
-	terminal.createOutline(fRed, '0')
+	terminal.createOutline(bRed, ' ')
 
-  for {}
+	actionBuf := make([]byte, 1)
+	for {
+
+		os.Stdin.Read(actionBuf)
+		if string(actionBuf[0]) == "q" {
+			return
+		}
+	}
 
 	//main loop
 	/*

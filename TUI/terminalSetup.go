@@ -1,4 +1,4 @@
-package main
+package TUI 
 
 func setupTerminal() error {
 	/*
