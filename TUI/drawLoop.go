@@ -17,9 +17,10 @@ func MainDrawLoop() {
 	width, height := getTermDimensions(termFD)
 	terminal := createTerm(width, height)
 
-  terminal.createRect(termDefault, 0, 0, terminal.height, terminal.width)
+	terminal.createRect(termDefault, 0, 0, terminal.height, terminal.width)
 
-  terminal.horizontalLine(terminal.height / 5, 2, terminal.width - 1)
+	terminal.horizontalLine(terminal.height/5, 2, terminal.width-1)
+	terminal.putTextRaw(Header, 2, 2)
 
 	actionBuf := make([]byte, 1)
 	for {

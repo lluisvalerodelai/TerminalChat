@@ -9,6 +9,12 @@ type Screen struct {
 	color         string //stores either foreground or background
 }
 
+func (s Screen) putTextRaw(val string, row, col int) {
+  //"copy paste" whatever is in val, starting from row, col 
+  s.to(row, col)
+  fmt.Print(val)
+}
+
 func (s Screen) horizontalLine(row int, col1 int, col2 int) {
 
 	switch {
@@ -18,15 +24,15 @@ func (s Screen) horizontalLine(row int, col1 int, col2 int) {
 		col2 = s.width
 	}
 
-  for i := col1; i <= col2; i++ {
-    s.put('─', row, i)
-  }
+	for i := col1; i <= col2; i++ {
+		s.put('─', row, i)
+	}
 }
 
 func (s Screen) resetScreen() {
 	doAnsii("[" + "0" + "m") //reset defaults
 	doAnsii(aClearScreen)    //clear (need to reset before, else we clear with the color)
-	doAnsii(aCursorVisible)    //clear (need to reset before, else we clear with the color)
+	doAnsii(aCursorVisible)  //clear (need to reset before, else we clear with the color)
 }
 
 func (s Screen) createOutline(outlineColor string, outlineVal rune) {
@@ -79,13 +85,13 @@ func (s Screen) createRect(boxColor string, row1, col1, row2, col2 int) {
 
 	//draw corners
 
-  //we dont go until row2 - 1 because we already manually draw that corner
+	//we dont go until row2 - 1 because we already manually draw that corner
 	for i := row1; i < row2; i++ {
 		s.put('│', i, col1)
 		s.put('│', i, col2)
 	}
 
-  //same here
+	//same here
 	for i := col1; i < col2; i++ {
 		s.put('─', col1, i)
 		s.put('─', col2, i)
