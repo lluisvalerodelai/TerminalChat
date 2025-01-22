@@ -22,11 +22,16 @@ func MainDrawLoop() {
   child1 := &Box{}
   child1.Bordered = true
 
+
   child2 := &Box{}
   child2.Bordered = true
 
+  child3 := &Box{}
+  child3.Bordered = true
+
   rootBox.AddChild(child1)
-  rootBox.AddChild(child2)
+  child1.AddChild(child2)
+  child2.AddChild(child3)
 
   height, width := getTermDimensions(termFD)
   rootBox.RenderAll(height, width)

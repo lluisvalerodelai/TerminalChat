@@ -22,19 +22,12 @@ func (r Renderer) Render() {
 }
 
 func (r Renderer) DrawBorder() {
-	r.CursorHome()
 
-	r.put('┌', r.y, r.x)
-	r.put('┐', r.y, r.x + r.width)
+	r.put('┌', r.y + 1, r.x + 1)
+	r.put('┐', r.y + 1, r.x + r.width)
 
-	r.put('└', r.y + r.height, r.x)
+	r.put('└', r.y + r.height, r.x + 1)
 	r.put('┘', r.y + r.height, r.x + r.width)
-
-	// r.hLine(0, 2, r.width-1)
-	// r.hLine(r.height, 2, r.width-1)
-	//
-	// r.vLine(0, 2, r.height-1)
-	// r.vLine(r.width, 2, r.height-1)
 
 }
 
@@ -70,9 +63,4 @@ func (r Renderer) put(c rune, row, col int) {
 func (r Renderer) to(row, col int) {
 	action := fmt.Sprintf("[%v;%vH", row, col)
 	doAnsii(action)
-}
-
-func (r Renderer) CursorHome() {
-	//TODO: make cursorHome go to the home position relative to the box, not global
-  //its relative 0 is going to be the parents 0, plus its height offset
 }
