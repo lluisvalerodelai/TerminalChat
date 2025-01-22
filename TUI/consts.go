@@ -29,14 +29,14 @@ const (
 
 const (
 	aCursorHome      = "[H"
+	aCursor00        = "[0;0H"
 	aResetDefaults   = "[0m"
 	aClearScreen     = "c"
 	aCursorVisible   = "[?25h"
 	aCursorInvisible = "[?25l"
 )
 
-const Header = 
-`
+const Header = `
  ______   __                   __      __       __  __                   __               
  /      \ |  \                 |  \    |  \  _  |  \|  \                 |  \              
 |  $$$$$$\| $$____    ______  _| $$_   | $$ / \ | $$| $$____    ______  _| $$_     _______ 
@@ -47,4 +47,4 @@ const Header =
  \$$    $$| $$  | $$ \$$    $$  \$$  $$| $$$    \$$$| $$  | $$ \$$    $$  \$$  $$|       $$
   \$$$$$$  \$$   \$$  \$$$$$$$   \$$$$  \$$      \$$ \$$   \$$  \$$$$$$$   \$$$$  \$$$$$$$ 
                                                                                            
-`  
+`

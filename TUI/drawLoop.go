@@ -14,13 +14,22 @@ func MainDrawLoop() {
 	oldState := setTermRaw(termFD) //old state type is *term.State
 	defer term.Restore(termFD, oldState)
 
-	width, height := getTermDimensions(termFD)
-	terminal := createTerm(width, height)
+  prepTerm()
 
-	terminal.createRect(termDefault, 0, 0, terminal.height, terminal.width)
+  rootBox := &Box{}
+  rootBox.Bordered = true
 
-	terminal.horizontalLine(terminal.height/5, 2, terminal.width-1)
-	terminal.putTextRaw(Header, 2, 2)
+  child1 := &Box{}
+  child1.Bordered = true
+
+  child2 := &Box{}
+  child2.Bordered = true
+
+  rootBox.AddChild(child1)
+  rootBox.AddChild(child2)
+
+  height, width := getTermDimensions(termFD)
+  rootBox.RenderAll(height, width)
 
 	actionBuf := make([]byte, 1)
 	for {
@@ -28,7 +37,7 @@ func MainDrawLoop() {
 		os.Stdin.Read(actionBuf)
 
 		if string(actionBuf[0]) == "q" {
-			terminal.resetScreen()
+      resetTerm() 
 			return
 		}
 
