@@ -9,8 +9,8 @@ type Box struct {
 	x, y     int
 }
 
-func (s Box) RenderAll(height, width int) {
-	boxRenderer := Renderer{s, height, width}
+func (s Box) RenderAll(width, height int) {
+	boxRenderer := Renderer{s, width - 1, height - 1} //adjust for width/height starting at 0 but terminal starting at 1
 
 	if s.Bordered {
 		boxRenderer.DrawBorder()
@@ -24,12 +24,14 @@ func (s Box) RenderAll(height, width int) {
 		child.x = s.x + 1
 		child.y = s.y + 1
 
-		child.RenderAll(height-2, width-2)
+		//height and width must be decreased by 2 because x,y increases by 1
+		//we lower the box by 1, then bring it up 2 so that overall its 1 smaller
+		child.RenderAll(width-2, height-2)
 	}
 
 }
 
 func (s *Box) AddChild(child *Box) {
-  child.parent = s
+	child.parent = s
 	s.Children = append(s.Children, child)
 }

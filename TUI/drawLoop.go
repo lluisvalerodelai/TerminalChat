@@ -14,27 +14,26 @@ func MainDrawLoop() {
 	oldState := setTermRaw(termFD) //old state type is *term.State
 	defer term.Restore(termFD, oldState)
 
-  prepTerm()
+	prepTerm()
 
-  rootBox := &Box{}
-  rootBox.Bordered = true
+	rootBox := &Box{Bordered: true}
 
-  child1 := &Box{}
-  child1.Bordered = true
+	child1 := &Box{Bordered: true}
+	child2 := &Box{Bordered: true}
+	child3 := &Box{Bordered: true}
+	child4 := &Box{Bordered: true}
 
+	// Manually link the hierarchy
+	rootBox.AddChild(child1)
+	child1.AddChild(child2)
+	child2.AddChild(child3)
+	child3.AddChild(child4)
 
-  child2 := &Box{}
-  child2.Bordered = true
+	width, height := getTermDimensions(termFD)
+	rootBox.x = 1
+	rootBox.y = 1
 
-  child3 := &Box{}
-  child3.Bordered = true
-
-  rootBox.AddChild(child1)
-  child1.AddChild(child2)
-  child2.AddChild(child3)
-
-  height, width := getTermDimensions(termFD)
-  rootBox.RenderAll(height, width)
+	rootBox.RenderAll(width, height)
 
 	actionBuf := make([]byte, 1)
 	for {
@@ -42,7 +41,7 @@ func MainDrawLoop() {
 		os.Stdin.Read(actionBuf)
 
 		if string(actionBuf[0]) == "q" {
-      resetTerm() 
+			resetTerm()
 			return
 		}
 

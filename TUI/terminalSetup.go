@@ -38,5 +38,4 @@ func setTermRaw(fd int) *term.State {
 func resetTerm() {
 	doAnsii("[" + "0" + "m") //reset defaults
 	doAnsii(aClearScreen)    //clear (need to reset before, else we clear with the color)
-	doAnsii(aCursorVisible)  //clear (need to reset before, else we clear with the color)
 }
