@@ -8,19 +8,7 @@ type Renderer struct {
 	width, height int //Width and height are relative to the Box container
 }
 
-func (r Renderer) Render() {
-
-	if r.Bordered {
-		r.DrawBorder()
-	}
-
-	for child := range r.Children {
-		fmt.Printf("Child: +%v", child)
-	}
-
-}
-
-func (r Renderer) DrawBorder() {
+func (r Renderer) DrawBorder(ul, ur, dl, dr rune) {
 
 	//draw lines before corners so we dont have to do off by 1 adjustments
 	//instead just draw over them
@@ -30,11 +18,11 @@ func (r Renderer) DrawBorder() {
 	r.vLine(r.x, r.y, r.y+r.height)
 	r.vLine(r.x+r.width, r.y, r.y+r.height)
 
-	r.put('┌', r.y, r.x)
-	r.put('┐', r.y, r.x+r.width)
+	r.put(ul, r.y, r.x)
+	r.put(ur, r.y, r.x+r.width)
 
-	r.put('└', r.y+r.height, r.x)
-	r.put('┘', r.y+r.height, r.x+r.width)
+	r.put(dl, r.y+r.height, r.x)
+	r.put(dr, r.y+r.height, r.x+r.width)
 }
 
 func (r Renderer) vLine(col, row1, row2 int) {

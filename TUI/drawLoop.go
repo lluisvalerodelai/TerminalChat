@@ -19,21 +19,19 @@ func MainDrawLoop() {
 	rootBox := &Box{Bordered: true}
 
 	child1 := &Box{Bordered: true}
-	child2 := &Box{Bordered: true}
-	child3 := &Box{Bordered: true}
-	child4 := &Box{Bordered: true}
 
 	// Manually link the hierarchy
 	rootBox.AddChild(child1)
-	child1.AddChild(child2)
-	child2.AddChild(child3)
-	child3.AddChild(child4)
+  rootBox.AddChild(&Box{Bordered : true})
+
+  child1.AddChild(&Box{Bordered : true})
+  child1.AddChild(&Box{Bordered : true})
 
 	width, height := getTermDimensions(termFD)
 	rootBox.x = 1
 	rootBox.y = 1
 
-	rootBox.RenderAll(width, height)
+	rootBox.RenderAll(width, height, '╭', '╮', '╰', '╯')
 
 	actionBuf := make([]byte, 1)
 	for {
